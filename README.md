@@ -1,2 +1,2 @@
 # websearch
-Trabalho programação para internet
+Trabalho de programação para internet
