@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup
 import requests, re, time
 
 def main():
-    keyword = "alunos"#input("Digite sua busca:\n")
+    keyword = "Federal"#input("Digite sua busca:\n")
     url = "http://libra.ifpi.edu.br/" #input("Digite a url de inicio:\n")
-    depth = "3"#input("digite a profundidade\n")
+    depth = 3#input("digite a profundidade\n")
     search(keyword, url, depth)
 
 def search(keyword, url, depth):
@@ -19,12 +19,32 @@ def search(keyword, url, depth):
             print(link)
     text = html.text
     t = text.split()
+    # print(type(t))
+    # print(t)
     try:
         s = t.index(keyword)
         print(s)
     except ValueError:
         print(u"\nPalavra ou expressão nao encontrada dentro da página.")
+    tam = len(t)
+    v = []
+    cp = 5
+
+    while cp !=0:
+        v.append(t[s-cp])
+        cp -= 1
+
+    c = 0
+    while c < 5:
+        if s + c < tam:
+            v.append(t[s + c])
+            c += 1
+        else:
+            break
     end = time.time()
+
+    res = " ".join(v)
+    print(print ("\n Palavra Buscada: " + keyword + res + "\nLink: " + str(url)))
     print(u"Tempo de execução:", end - start)
 
 if __name__ == '__main__':
