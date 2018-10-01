@@ -3,7 +3,7 @@ import requests, re, time
 
 
 def main():
-    keyword = "Federal"  # input("Digite sua busca:\n")
+    keyword = u"Inscrição"  # input("Digite sua busca:\n")
     url = "http://libra.ifpi.edu.br/"  # input("Digite a url de inicio:\n")
     depth = 3  # input("digite a profundidade\n")
     search(keyword, url, depth)
@@ -21,6 +21,7 @@ def search(keyword, url, depth):
             print(link)
     text = html.text
     t = text.split()
+    s = 0
     try:
         s = t.index(keyword)
         print(s)
