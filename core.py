@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
-import requests, time
+import requests, time, re
 
 
 def main():
-    keyword = u"Inscrição"  # input("Digite sua busca:\n")
+    keyword = u"Federal"  # input("Digite sua busca:\n")
     url = "http://libra.ifpi.edu.br/"  # input("Digite a url de inicio:\n")
     depth = 2  # input("digite a profundidade\n")
     start = time.time()
@@ -17,38 +17,26 @@ def search(keyword, url, depth):
     response = requests.get(url)
     html = BeautifulSoup(response.text, 'html5lib')
     links = html.find_all("a")
-    text = html.text
-    t = text.split()
-    s = 0
+    words = html.find_all("p")
+    palavras_da_pagina = []
+    res = []
     try:
-        s = t.index(keyword)
-        print(s)
-    except ValueError:
-        print(u"\nPalavra ou expressão nao encontrada dentro da página.\n")
-        print(url)
-    tam = len(t)
-    v = []
-    cp = 2
-    while cp != 0:
-        v.append(t[s - cp])
-        cp -= 1
-    c = 0
-    while c < 3:
-        if s + c < tam:
-            v.append(t[s + c])
-            c += 1
-        else:
-            break
-    res = " ".join(v)
+        for w in words:
+            palavras_da_pagina += w
+        for w2 in palavras_da_pagina:
+            if keyword == words.index(w2):
+                res = " foi encontrada"
+    except:
+        res = "nao foi encontrada"
+    print(u"\nSua busca retornou: " + keyword + ". " + res + "\nLink: " + url)
     if depth > 0:
         for link in links:
             try:
                 if link['href'].startswith('http'):
+                    time.sleep(2)
                     search(keyword, link['href'], depth -1)
             except KeyError:
                 print(u"Link inválido: " + str(link))
-
-    print(u"\nSua busca retornou: " + keyword + ". " + res + "\nLink: " + url)
 
 
 
